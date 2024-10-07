@@ -1,82 +1,67 @@
-# Genetic Algorithm - Monoalphabetic Cipher Breaker
+
+# Genetic-Algorithms-Cipher-Decoder
 
 ## Overview
 
-This repository contains a project dedicated to breaking monoalphabetic ciphers using advanced genetic algorithms. By employing evolutionary techniques, the project aims to decode encrypted text through an iterative optimization process that identifies the best possible decryption key.
+This project implements genetic algorithms to solve a specific permutation problem in computational biology. The program is capable of simulating different evolutionary models, including a standard genetic algorithm, a Darwin-based approach, and a Lamarck-based approach. The program is designed to be run with multiple threads for improved performance and efficiency.
+
+## Features
+
+- **Choice of Algorithm**: Users can select between the following algorithms:
+  - **Standard Genetic Algorithm**: A baseline evolutionary approach without local optimizations.
+  - **Lamarckian Evolutionary Model**: Applies local optimizations directly to each solution and saves these changes to the population.
+  - **Darwinian Evolutionary Model**: Applies local optimizations temporarily for evaluating fitness but does not keep the optimizations in the subsequent generations.
+    
+
+- **Multithreading Support**: The program supports running the algorithm with multiple threads for parallel processing.
+- **Fitness Evaluation**: Evaluates solutions based on the number of real words decoded using the given permutation and compares frequency distributions.
+- **Stopping Criteria**: Stops based on fitness score improvement over generations or after a predefined number of generations without improvement.
+
+## Algorithm Details
+
+### Lamarckian Evolutionary Model
+The Lamarckian model applies local optimizations to each solution, allowing it to learn and adapt better before being added to the next generation. If a solution benefits from an improvement (e.g., better decoding of words), these changes are retained when the solution is carried forward. This approach helps increase the average fitness of the population as solutions become more refined over time.
+
+### Darwinian Evolutionary Model
+In contrast, the Darwinian model uses local optimizations purely for evaluation. After assessing a solution's fitness with the optimizations, it reverts to its original state before being added to the next generation. This model relies more on natural selection and the variety of mutations to guide evolution, potentially retaining more diversity but progressing slower compared to the Lamarckian model.
+
+## Population Initialization
+
+- The initial population is generated with 1,000 randomly created solutions. Each solution is a permutation of 26 English alphabet letters.
+- The initial solutions contain no repeated characters, ensuring a diverse set of starting points.
+- From this initial population, a fitness score is calculated for each solution based on the number of real words decoded from the encrypted text and their adherence to expected letter frequency distributions.
+
+## Running the Program
+1. Clone the repository and navigate to the project directory:
+    ```bash
+    git clone <repository-link>
+    cd <repository-folder>
+    ```
+2. Run the program using the following command:
+    ```bash
+    python main.py
+    ```
+    Or run the exe file - `main.exe` by double clicking. The output files `txt.plain` and `txt.perm` will appear in the folder of the exe file along with the input files
+3. You will be prompted to choose the type of algorithm to run (Standard, Lamarck, or Darwin).
+   
+   ![image](https://github.com/user-attachments/assets/b821e00b-418c-4ab5-8532-5327d6f56353)
+
+
+### Example Files
+
+- **Input**: Provide input files like `plain.txt` and `perm.txt` in the same directory as `main.exe` if using the compiled version.
+- **Output**: The decoded text and performance metrics will be saved in the output directory.
+
+
+## Conclusion
+
+Through testing and analysis, we found that the **Lamarckian model** tends to reach higher fitness values faster than the **Darwinian model** due to its ability to directly incorporate improvements into the population. However, the Darwinian approach helps maintain genetic diversity for a longer period, which can be beneficial in avoiding premature convergence to suboptimal solutions. The standard genetic algorithm offers a balanced, simpler approach, but it generally performs less efficiently than the Lamarckian model for this problem.
 
 ## About This Project
 
-This project was developed as part of the **Bioinformatics course** at **Bar-Ilan University** during the 2023 academic year. It serves as a practical demonstration of key programming techniques such as **multithreading**, **algorithm optimization**, and **simulation of evolutionary processes**.
+This project was developed as part of an exercise in computational biology, focusing on the use of genetic algorithms for decoding tasks. It explores different approaches to evolutionary optimization and compares their effectiveness based on fitness scores and accuracy of decoded text. 
 
 ## Contributors
 
-- **Reut Lev** ([reutlev98](https://github.com/reutlev98))
-- **Ye'ela Granot** ([yeela8g](https://github.com/yeela8g))
-
-## Introduction
-
-The project includes three variations of genetic algorithms:
-- **Standard Genetic Algorithm**: Implements a classic genetic algorithm approach for text decryption.
-- **Darwinian Genetic Algorithm**: Simulates natural selection where only the fittest solutions propagate.
-- **Lamarckian Genetic Algorithm**: Incorporates local optimization to improve solutions before passing them to the next generation.
-
-Each variation provides a unique strategy for deciphering the encrypted message, leveraging principles of natural evolution and optimization.
-
-## Input and Output Files
-
-### Input Files:
-- `enc.txt`: The file containing the encrypted text to be decoded.
-- `dict.txt`: A dictionary file used for comparing decrypted words during fitness evaluation.
-- `Letter_Freq.txt`: Contains the expected frequency distribution of letters in the English language.
-
-### Output Files:
-- `plain.txt`: Outputs the decrypted message.
-- `perm.txt`: Saves the permutation table that was used for decoding the encrypted text.
-
-## How to Run
-
-You can run the program using one of the following methods:
-
-### Option 1: Using the Executable
-
-1. Download and extract the `main.zip` file.
-2. Navigate to the extracted directory and double-click `main.exe`.
-3. Follow the prompt to select the desired algorithm variant:
-   - `1` for the Standard Genetic Algorithm.
-   - `2` for the Darwinian Genetic Algorithm.
-   - `3` for the Lamarckian Genetic Algorithm.
-4. Wait for the computation to complete.
-5. The results will be written to `plain.txt` and `perm.txt` in the same directory.
-
-### Option 2: Running the Python Script
-
-1. Place the input files (`enc.txt`, `dict.txt`, `Letter_Freq.txt`) in the same directory as the Python script.
-2. Execute the Python script using your Python environment:
-   ```bash
-   python decryptor.py
-   ```
-3. Follow the prompts to select the algorithm variant and input required parameters.
-
-## Algorithmic Approach
-
-The genetic algorithms implemented in this project decode the encrypted text by evolving a **population** of potential decryption keys, each represented as a **permutation of the English alphabet**. The evolutionary process includes the following stages:
-
-- **Population Initialization**: A population of 1000 random permutations is generated, each representing a potential decoding key.
-- **Selection**: A subset of the population is selected based on their **fitness score**, which measures how well they decode the text.
-- **Crossover**: Pairs of selected solutions are combined to produce new offspring, inheriting traits from both parents.
-- **Mutation**: Random alterations are introduced to the offspring to maintain genetic diversity.
-- **Elitism**: The best-performing solutions are preserved to ensure they survive into the next generation.
-- **Diversification**: Additional mutations are applied if the population's fitness plateaus, to prevent stagnation.
-
-### Fitness Function
-
-The fitness of each solution is evaluated by comparing the decrypted output against the dictionary (`dict.txt`) and analyzing the similarity between the decrypted letter frequencies and those in `Letter_Freq.txt`. Higher fitness scores correspond to solutions that produce readable decrypted text.
-
-## Lamarckian vs. Darwinian Evolution
-
-- **Lamarckian Approach**: Solutions undergo local optimization before being passed to the next generation, allowing improved adaptations to be directly inherited.
-- **Darwinian Approach**: Solutions are evaluated as-is, with optimizations only influencing fitness but not being inherited. This maintains closer adherence to natural evolutionary processes.
-
-## Summary
-
-This project highlights the capabilities of genetic algorithms for tackling cryptographic challenges, providing a sophisticated approach to solving monoalphabetic ciphers. The adaptive nature of the genetic algorithm allows it to explore a wide solution space efficiently, offering valuable insights into the power of evolutionary computation.
+- **Reut Lev** (reutlev98)
+- **Ye'ela Granot** (yeela8g)
