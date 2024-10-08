@@ -1,5 +1,5 @@
 
-# Genetic-Algorithms-Cipher-Decoder
+# Genetic Algorithms Cipher Decoder
 
 ## Overview
 
